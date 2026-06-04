@@ -1,0 +1,287 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #414141;
+    color: white;
+    height: 100vh;
+}
+
+.container{
+    display: flex;
+    height: 100vh;
+}
+
+.playlist-panel{
+    width: 30%;
+    min-width: 280px;
+    background-color: #1e1e1e;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #333;
+}
+
+.player-panel{
+    flex: 1;
+    padding: 40px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.top-bar{
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#search{
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+}
+
+#themeBtn{
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    background: transparent;
+}
+
+h1{
+    margin-bottom: 15px;
+}
+
+#cover{
+    width: min(400px, 60vw);
+    height: min(400px, 60vw);
+    object-fit: cover;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.song-info{
+    margin-bottom: 20px;
+}
+
+#songTitle{
+    margin-bottom: 5px;
+}
+
+#artist{
+    color: lightgray;
+}
+
+.time-container{
+    width: 80%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#progress{
+    flex: 1;
+    cursor: pointer;
+}
+
+.controls{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.controls button{
+    background: transparent;
+    padding: 10px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.controls button,#themeBtn{
+    color: white;
+    font-size: 1.5rem;
+}
+.volume-container{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#volume{
+    flex: 1;
+}
+
+h3{
+    margin-bottom: 10px;
+}
+
+.playlist-controls{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+#uploadBtn{
+    width: 45px;
+    height: 45px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: black;
+    color: #b3b3b3;
+
+    border-radius: 10px;
+
+    font-size: 2rem;
+    font-weight: bold;
+
+    cursor: pointer;
+    user-select: none;
+}
+
+#uploadBtn:hover{
+    color: white;
+    background-color: black;
+}
+
+#playlist{
+    flex: 1;
+    overflow-y: auto;
+    text-align: left;
+    padding-left: 25px;
+    min-height: 0;
+}
+
+#playlist li{
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 6px;
+    margin-bottom: 4px;
+}
+
+.active-song{
+    background-color: #2d2d2d;
+    color: white;
+    font-weight: bold;
+}
+
+#playlist li{
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 6px;
+    margin-bottom: 4px;
+}
+
+#playlist li:hover{
+    background-color: #2d2d2d;
+}
+
+.song-info{
+    margin-bottom: 30px;
+}
+
+#songTitle{
+    font-size: 2rem;
+}
+
+#artist{
+    font-size: 1rem;
+    color: #b3b3b3;
+}
+
+#miniPlayer{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 15px;
+
+    padding: 10px;
+
+    background-color: #111;
+
+    border-top: 1px solid #333;
+}
+
+.player-panel{
+    padding-bottom: 80px;
+}
+
+.playlist-panel{
+    padding-bottom: 80px;
+}
+
+#miniCover{
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+#miniTitle{
+    color: white;
+}
+
+.light{
+    background-color: white;
+    color: black;
+}
+
+.light .playlist-panel{
+    background-color: #eeeeee;
+}
+
+.light .player-panel{
+    background-color: white;
+}
+
+.light .controls button{
+    color: black;
+}
+
+.light .active-song{
+    background-color: #d0d0d0;
+    color: black;
+}
+
+@media(max-width: 768px){
+
+    .container{
+        flex-direction: column;
+    }
+
+    .playlist-panel{
+        width: 100%;
+        height: 40vh;
+        border-right: none;
+    }
+
+    .player-panel{
+        width: 100%;
+    }
+
+    #cover{
+        width: 220px;
+        height: 220px;
+    }
+}
