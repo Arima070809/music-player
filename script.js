@@ -30,6 +30,11 @@ const volumeIcon = document.getElementById("volumeIcon");
 const miniCover = document.getElementById("miniCover");
 const miniTitle = document.getElementById("miniTitle");
 
+const deleteBtn = document.createElement("button");
+
+deleteBtn.innerHTML ='<i class="fa-solid fa-trash"></i>';
+deleteBtn.classList.add("delete-song");
+
 
 let songs = [];
 let favorites = [];
@@ -39,6 +44,29 @@ let repeatMode = false;
 
 audio.volume = volume.value;
 
+//Created Database
+let db;
+
+const request = indexedDB.open("MusicPlayerDB", 1);
+
+request.onupgradeneeded = event => {
+    db = event.target.result;
+
+    if(!db.objectStoreNames.contains("songs")){
+        db.createObjectStore("songs", {
+            keyPath: "name"
+        });
+    }
+};
+
+request.onsuccess = event => {
+    db = event.target.result;
+    loadSavedSongs();
+};
+
+request.onerror = () => {
+    console.log("IndexedDB failed to open");
+};
 
 //Theme 
 const savedTheme =
@@ -51,7 +79,6 @@ if(savedTheme === "light"){
 
 //Upload Songs
 songPicker.addEventListener("change", event => {
-
     const newSongs = [...event.target.files];
     newSongs.forEach(song => {
         const exists = songs.some(
@@ -59,11 +86,42 @@ songPicker.addEventListener("change", event => {
         );
         if(!exists){
             songs.push(song);
+
+            saveSong(song);
         }
     });
     displayPlaylist();
     songPicker.value = "";
 });
+
+
+//Save Songs
+function saveSong(file){
+    const transaction =
+        db.transaction(["songs"], "readwrite");
+    const store =
+        transaction.objectStore("songs");
+    store.put({
+        name: file.name,
+        file: file
+    });
+}
+
+
+//Load Songs after Refresh
+function loadSavedSongs(){
+    const transaction =
+        db.transaction(["songs"], "readonly");
+    const store =
+        transaction.objectStore("songs");
+    const request = store.getAll();
+    request.onsuccess = () => {
+        songs = request.result.map(
+            item => item.file
+        );
+        displayPlaylist();
+    };
+}
 
 
 //Load Favorites
@@ -93,15 +151,41 @@ function displayPlaylist(){
     playlist.innerHTML = "";
     songs.forEach((song, index) => {
         const li = document.createElement("li");
-        li.textContent = song.name;
         li.dataset.index = index;
-        li.addEventListener("click", () => {
+        const songName = document.createElement("span");
+        songName.textContent = song.name;
+        songName.addEventListener("click", () => {
             loadSong(index);
         });
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "🗑";
+        deleteBtn.classList.add("delete-song");
+        deleteBtn.addEventListener("click", event => {
+            event.stopPropagation();
+            deleteSong(index);
+        });
+        li.appendChild(songName);
+        li.appendChild(deleteBtn);
         playlist.appendChild(li);
     });
-    document.getElementById("stats")
-        .textContent = `Songs: ${songs.length}`;
+    document.getElementById("stats").textContent =
+        `Songs: ${songs.length}`;
+}
+
+
+//Delete Song
+function deleteSong(index){
+    const song = songs[index];
+    songs.splice(index, 1);
+    const transaction =
+        db.transaction(["songs"], "readwrite");
+    const store =
+        transaction.objectStore("songs");
+    store.delete(song.name);
+    displayPlaylist();
+    if(currentSongIndex >= songs.length){
+        currentSongIndex = songs.length - 1;
+    }
 }
 
 
@@ -212,6 +296,7 @@ document.addEventListener("drop", event => {
         );
         if(!exists){
             songs.push(file);
+            saveSong(file);
         }
     });
     displayPlaylist();
@@ -227,6 +312,20 @@ audio.addEventListener("ended", () => {
     else{
         nextBtn.click();
     }
+});
+
+
+//Clear Playlist Button
+const clearPlaylistBtn =
+    document.getElementById("clearPlaylistBtn");
+clearPlaylistBtn.addEventListener("click", () => {
+    songs = [];
+    displayPlaylist();
+    const transaction =
+        db.transaction(["songs"], "readwrite");
+    const store =
+        transaction.objectStore("songs");
+    store.clear();
 });
 
 

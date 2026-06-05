@@ -19,15 +19,19 @@
                     placeholder="Search songs...">
                 <button id="themeBtn">🌙</button>
             </div>
+            
             <div class="playlist-controls">
                 <h3>Playlist</h3>
-                <label for="songPicker" id="uploadBtn">+</label>
-                <input
-                    type="file"
-                    id="songPicker"
-                    accept="audio/*"
-                    multiple
-                    hidden>
+                <div class="playlist-buttons">
+                    <label for="songPicker" id="uploadBtn">+</label>
+                    <button id="clearPlaylistBtn">🗑</button>
+                    <input
+                        type="file"
+                        id="songPicker"
+                        accept="audio/*"
+                        multiple
+                        hidden>
+                </div>
             </div>
             <p id="stats">Songs: 0</p>
             <ol id="playlist">

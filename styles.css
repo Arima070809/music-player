@@ -139,6 +139,29 @@ h3{
     margin-bottom: 15px;
 }
 
+.playlist-buttons{
+    display: flex;
+    gap: 10px;
+}
+
+#clearPlaylistBtn{
+    width: 45px;
+    height: 45px;
+
+    border: none;
+    border-radius: 10px;
+
+    background-color: black;
+    color: #b3b3b3;
+
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+#clearPlaylistBtn:hover{
+    color: white;
+}
+
 #uploadBtn{
     width: 45px;
     height: 45px;
@@ -172,11 +195,19 @@ h3{
     padding-left: 25px;
 }
 
-#playlist li{
-    padding: 10px;
-    cursor: pointer;
+.delete-song{
+    background-color: #ff4444;
+    border: none;
+    color: white;
+    width: 28px;
+    height: 28px;
     border-radius: 6px;
-    margin-bottom: 4px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.delete-song:hover{
+    background-color: #ff2222;
 }
 
 .active-song{
@@ -186,10 +217,14 @@ h3{
 }
 
 #playlist li{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 10px;
     cursor: pointer;
     border-radius: 6px;
     margin-bottom: 4px;
+    gap: 10px;
 }
 
 #playlist li:hover{
